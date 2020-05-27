@@ -73,7 +73,7 @@ class Wine < ActiveRecord::Base
     when 1
       self.all_whites
     when 2
-      self.gewurztraminer
+      table "Gewürztraminer"
     when 3
       self.cabernet_sauvignon
     when 4
@@ -138,5 +138,14 @@ class Wine < ActiveRecord::Base
   end
 
   def self.white_blend
+  end
+
+  def self.table varietal
+    selected_wines = Wine.all.where(varietal: varietal)
+    mapped_wines = selected_wines.map do |wine|
+      [wine.id, wine.name, wine.vintage, wine.winery, wine.varietal]
+    end
+    table = TTY::Table.new ['ID', 'Name', 'Vintage', 'Winery', 'Varietal'], mapped_wines
+    puts table.render(:ascii)
   end
 end
