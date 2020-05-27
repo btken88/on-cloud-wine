@@ -2,5 +2,6 @@ require_relative 'config/environment'
 
 
 
-binding.pry
-0
+
+
+CommandLineInterface.new.main_menu
