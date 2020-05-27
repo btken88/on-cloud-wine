@@ -36,7 +36,10 @@ class Wine < ActiveRecord::Base
     when 1
       self.all_reds
     when 2
-      self.cabernet_franc
+      table "Cabernet Franc"
+      CommandLineInterface.select_wine
+      $user.personal_collection
+
     when 3
       self.syrah
     when 4 
@@ -91,52 +94,15 @@ class Wine < ActiveRecord::Base
     end
   end
 
-  def self.all_reds
+  def self.table varietal
+    selected_wines = Wine.all.where(varietal: varietal)
+    mapped_wines = selected_wines.map do |wine|
+      [wine.id, wine.name, wine.vintage, wine.winery, wine.varietal]
+    end
+    table = TTY::Table.new ['ID', 'Name', 'Vintage', 'Winery', 'Varietal'], mapped_wines
+    puts table.render(:ascii)
   end
 
-  def self.all_whites
-  end
 
-  def self.cabernet_franc
-    puts "TEST"
-  end
 
-  def self.syrah
-  end
-
-  def self.petit_verdot
-  end
-
-  def self.teroldego
-  end
-
-  def self.merlot
-  end
-
-  def self.graciano
-  end
-
-  def self.red_blend
-  end
-
-  def self.gewurztraminer
-  end
-
-  def self.cabernet_sauvignon
-  end
-  
-  def self.riesling
-  end
-
-  def self.voigner
-  end
-
-  def self.moscato
-  end
-
-  def self.chardonnay
-  end
-
-  def self.white_blend
-  end
 end
