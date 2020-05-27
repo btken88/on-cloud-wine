@@ -14,7 +14,8 @@ class CommandLineInterface
     greet
     puts ""
     user_name = $prompt.ask('                                    Name:', default: ENV["User"],)
-    @user = User.find_by(name: user_name)
+    $user = User.find_or_create_by(name: user_name)
+    # binding.pry
     system('clear')
     
   end
@@ -38,6 +39,14 @@ class CommandLineInterface
     when 4
       exit
     end
+  end
+
+  def self.select_wine
+    print "Please enter the id of the wine you'd like to add to your collection: "
+    selection = gets.chomp
+    print "How many would you like to add?: "
+    quantity = gets.chomp
+    UserWine.create(wine_id: selection, count: quantity, user_id: $user.id)
   end
 
 end
