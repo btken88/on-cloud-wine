@@ -1,7 +1,6 @@
 require_relative 'config/environment'
 
 
-
-
-
-CommandLineInterface.new.run
+app = CommandLineInterface.new
+app.run
+app.main_menu

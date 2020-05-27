@@ -23,13 +23,11 @@ class Wine < ActiveRecord::Base
       "Cabernet Franc" => 2,
       "Syrah" => 3,
       "Petit Verdot" => 4,
-      "Rhône-Style Blend" => 5,
-      "Teroldego" => 6,
-      "Merlot" => 7,
-      "Bordeaux-Style Blend" => 8,
-      "Graciano" => 9,
-      "Blend" => 10,
-      "Previous Page" => 11
+      "Teroldego" => 5,
+      "Merlot" => 6,
+      "Graciano" => 7,
+      "Blend" => 8,
+      "Previous Page" => 9
     }
 
     choice_of_red = $prompt.select("Your choice of varietal?:", type_of_red)
@@ -44,18 +42,14 @@ class Wine < ActiveRecord::Base
     when 4 
       self.petit_verdot
     when 5
-      self.rhone_style_blend
-    when 6
       self.teroldego
-    when 7
+    when 6
       self.merlot
-    when 8
-      self.bordeaux_style_blend
-    when 9
+    when 7
       self.graciano
-    when 10
+    when 8
       self.red_blend
-    when 11
+    when 9
       browse_wines
     end
   end
@@ -113,16 +107,10 @@ class Wine < ActiveRecord::Base
   def self.petit_verdot
   end
 
-  def self.rhone_style_blend
-  end
-
   def self.teroldego
   end
 
   def self.merlot
-  end
-
-  def self.bordeaux_style_blend
   end
 
   def self.graciano
