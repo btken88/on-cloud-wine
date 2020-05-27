@@ -76,7 +76,7 @@ class Wine < ActiveRecord::Base
     when 1
       self.all_whites
     when 2
-      self.gewurztraminer
+      table "Gewürztraminer"
     when 3
       self.cabernet_sauvignon
     when 4
