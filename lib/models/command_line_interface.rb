@@ -10,7 +10,6 @@ class CommandLineInterface
     puts "                        Welcome to On Cloud Wine! Please enter your name."
   end
 
-
   def run
     greet
     user_name = $prompt.ask('                   Name:', default: ENV["User"],)
@@ -38,10 +37,6 @@ class CommandLineInterface
       return
     end
   end
-
-
-
-
 
 end
 
