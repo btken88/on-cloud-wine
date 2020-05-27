@@ -1,14 +1,12 @@
 class Wine < ActiveRecord::Base
   has_many :user_wines
   has_many :users, through: :user_wines
-
   def self.browse_wines
     red_or_white = {
       "Red" => 1,
       "White" => 2
     }
     color_choice =  $prompt.select('What color of wine would you like to peruse?:', red_or_white)
-
     case color_choice
     when 1
       self.reds
@@ -16,7 +14,6 @@ class Wine < ActiveRecord::Base
       self.whites
     end
   end
-
   def self.reds
     type_of_red = {
       "All Varietals" => 1,
@@ -29,34 +26,28 @@ class Wine < ActiveRecord::Base
       "Blend" => 8,
       "Previous Page" => 9
     }
-
     choice_of_red = $prompt.select("Your choice of varietal?:", type_of_red)
-
     case choice_of_red
+      # need to create method for creating table of all reds right here
     when 1
-      self.all_reds
     when 2
-      table "Cabernet Franc"
-      CommandLineInterface.select_wine
-      $user.personal_collection
-
+      add_to_collection "Cabernet Franc"
     when 3
-      self.syrah
+      add_to_collection "Syrah"
     when 4 
-      self.petit_verdot
+      add_to_collection "Petit Verdot"
     when 5
-      self.teroldego
+      add_to_collection "Teroldego"
     when 6
-      self.merlot
+      add_to_collection "Merlot"
     when 7
-      self.graciano
+      add_to_collection "Graciano"
     when 8
-      self.red_blend
+      add_to_collection "Blend", "Red"
     when 9
       browse_wines
     end
   end
-
   def self.whites
     type_of_white = {
     "All Varietals" => 1,
@@ -69,40 +60,39 @@ class Wine < ActiveRecord::Base
     "Blend" =>8,
     "Previous Page" => 9
     }
-
     choice_of_white = $prompt.select("Your choice of varietal?:", type_of_white)
-
     case choice_of_white
+      #Need to create table for all_whites
     when 1
       self.all_whites
     when 2
-      table "Gewürztraminer"
+      add_to_collection "Gewürztraminer"
     when 3
-      self.cabernet_sauvignon
+      add_to_collection "Cabernet Sauvignon"
     when 4
-      self.riesling
+      add_to_collection "Riesling"
     when 5
-      self.voigner
+      add_to_collection "Voigner"
     when 6
-      self.moscato
+      add_to_collection "Moscato"
     when 7
-      self.chardonnay
+      add_to_collection "Chardonnay"
     when 8
-      self.white_blend
+      add_to_collection "Blend", "White"
     when 9
       browse_wines
     end
   end
-
-  def self.table varietal
-    selected_wines = Wine.all.where(varietal: varietal)
+  def self.table varietal, color
+    selected_wines = Wine.all.where(varietal: varietal, color: color)
     mapped_wines = selected_wines.map do |wine|
       [wine.id, wine.name, wine.vintage, wine.winery, wine.varietal]
     end
     table = TTY::Table.new ['ID', 'Name', 'Vintage', 'Winery', 'Varietal'], mapped_wines
     puts table.render(:ascii)
   end
-
-
-
+  def self.add_to_collection varietal, color = "Red"||"White"
+    table varietal, color
+    CommandLineInterface.select_wine
+    end
 end
