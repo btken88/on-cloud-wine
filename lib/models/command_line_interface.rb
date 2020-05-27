@@ -12,9 +12,11 @@ class CommandLineInterface
 
   def run
     greet
-    user_name = $prompt.ask('                   Name:', default: ENV["User"],)
+    puts ""
+    user_name = $prompt.ask('                                    Name:', default: ENV["User"],)
     @user = User.find_by(name: user_name)
     system('clear')
+    
   end
 
   def main_menu
@@ -34,7 +36,7 @@ class CommandLineInterface
     when 3
       self.help
     when 4
-      return
+      exit
     end
   end
 
