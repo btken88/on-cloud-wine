@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_26_224227) do
+ActiveRecord::Schema.define(version: 2020_05_27_154909) do
 
   create_table "user_wines", force: :cascade do |t|
     t.integer "user_id"
@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 2020_05_26_224227) do
     t.string "varietal"
     t.integer "vintage"
     t.string "winery"
+    t.string "color"
   end
 
 end
