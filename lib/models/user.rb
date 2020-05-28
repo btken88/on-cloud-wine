@@ -68,7 +68,6 @@ class User < ActiveRecord::Base
           else
             wine_record.save
           end
-          binding.pry
           system('clear')
           Ascii.bottle_and_glasses
           puts "Enjoy your bottle of #{wine_record.wine.name}!".light_green
