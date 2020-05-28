@@ -35,19 +35,19 @@ class Wine < ActiveRecord::Base
     when 1
       all_wines_by_color 'Red'
     when 2
-      add_to_collection 'Cabernet Franc', 'Red'
+      wines_by_varietal 'Cabernet Franc', 'Red'
     when 3
-      add_to_collection 'Syrah', 'Red'
+      wines_by_varietal 'Syrah', 'Red'
     when 4
-      add_to_collection 'Petit Verdot', 'Red'
+      wines_by_varietal 'Petit Verdot', 'Red'
     when 5
-      add_to_collection 'Teroldego', 'Red'
+      wines_by_varietal 'Teroldego', 'Red'
     when 6
-      add_to_collection 'Merlot', 'Red'
+      wines_by_varietal 'Merlot', 'Red'
     when 7
-      add_to_collection 'Graciano', 'Red'
+      wines_by_varietal 'Graciano', 'Red'
     when 8
-      add_to_collection 'Blend', 'Red'
+      wines_by_varietal 'Blend', 'Red'
     when 9
       browse_wines
     end
@@ -71,25 +71,25 @@ class Wine < ActiveRecord::Base
     when 1
       all_wines_by_color 'White'
     when 2
-      add_to_collection 'Gewürztraminer', 'White'
+      wines_by_varietal 'Gewürztraminer', 'White'
     when 3
-      add_to_collection 'Cabernet Sauvignon', 'White'
+      wines_by_varietal 'Cabernet Sauvignon', 'White'
     when 4
-      add_to_collection 'Riesling', 'White'
+      wines_by_varietal 'Riesling', 'White'
     when 5
-      add_to_collection 'Voigner', 'White'
+      wines_by_varietal 'Voigner', 'White'
     when 6
-      add_to_collection 'Moscato', 'White'
+      wines_by_varietal 'Moscato', 'White'
     when 7
-      add_to_collection 'Chardonnay', 'White'
+      wines_by_varietal 'Chardonnay', 'White'
     when 8
-      add_to_collection 'Blend', 'White'
+      wines_by_varietal 'Blend', 'White'
     when 9
       browse_wines
     end
   end
 
-  def self.table(varietal, color)
+  def self.wines_by_varietal(varietal, color)
     selected_wines = Wine.all.where(varietal: varietal, color: color)
     binding.pry
     mapped_wines = selected_wines.map do |wine|
@@ -97,10 +97,16 @@ class Wine < ActiveRecord::Base
     end
     table = TTY::Table.new %w[ID Name Vintage Winery Varietal], mapped_wines
     puts table.render(:ascii)
+    add_wine?
   end
   
-  def self.add_to_collection varietal, color = "Red"||"White"
-    table varietal, color
+  def self.all_wines_by_color color
+    wines = Wine.all.where(color: color)
+    mapped_wines = wines.map do |wine|
+      [wine.id, wine.name, wine.vintage, wine.winery, wine.varietal]
+    end
+    table = TTY::Table.new %w[ID Name Vintage Winery Varietal], mapped_wines
+    puts table.render(:ascii)
     add_wine?
   end
 
@@ -131,14 +137,5 @@ class Wine < ActiveRecord::Base
     when 2
       $user.personal_collection
     end
-  end
-  def all_wines_by_color color
-    wines = Wine.all.where(color: color)
-    mapped_reds = red_wines.map do |wine|
-      [wine.id, wine.name, wine.vintage, wine.winery, wine.varietal]
-    end
-    table = TTY::Table.new %w[ID Name Vintage Winery Varietal], mapped_wines
-    puts table.render(:ascii)
-    CommandLineInterface.select_wine
   end
 end
