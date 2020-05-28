@@ -1,7 +1,7 @@
 require 'tty-prompt'
 
 class CommandLineInterface 
-  $prompt = TTY::Prompt.new(symbols: {marker: '-->'})
+  $prompt = TTY::Prompt.new(symbols: {marker: '🍷'})
   
   attr_accessor :user
 
@@ -9,10 +9,12 @@ class CommandLineInterface
   def greet
     Ascii.alt_greeting
 
-    puts "                            Welcome to On Cloud Wine! Please enter your name."
+    puts "Welcome to On Cloud Wine! With On Cloud Wine you can browse some of Colorado's most popular wines and add them to
+your own personal wine collection. Please enter your name to begin."
   end
 
   def run
+    system('clear')
     greet
     puts ""
     user_name = $prompt.ask('                                            Name:', default: ENV["User"],)
@@ -23,12 +25,14 @@ class CommandLineInterface
   end
 
   def self.main_menu
+    system('clear')
     menu_selections = {
       "Browse Wines" => 1,
       "View Personal Collection" => 2,
-      "Exit" => 3
+      "Add a Colorado Wine" => 3,
+      "Exit" => 4
     }
-    menu_choice = $prompt.select('Choose an option from the menu below:', menu_selections)
+    menu_choice = $prompt.select("Welcome #{$user.name}. Choose an option from the menu below:", menu_selections)
 
     case menu_choice
     when 1 
@@ -36,6 +40,8 @@ class CommandLineInterface
     when 2
       $user.personal_collection
     when 3
+      Wine.add_wine_to_database
+    when 4
       exit
     end
   end
