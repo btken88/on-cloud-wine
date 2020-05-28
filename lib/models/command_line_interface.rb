@@ -1,19 +1,21 @@
+require 'tty-prompt'
+
 class CommandLineInterface 
-  $prompt = TTY::Prompt.new
+  $prompt = TTY::Prompt.new(symbols: {marker: '-->'})
   
   attr_accessor :user
 
 
   def greet
-    Ascii.greeting_art
+    Ascii.alt_greeting
 
-    puts "                        Welcome to On Cloud Wine! Please enter your name."
+    puts "                            Welcome to On Cloud Wine! Please enter your name."
   end
 
   def run
     greet
     puts ""
-    user_name = $prompt.ask('                                    Name:', default: ENV["User"],)
+    user_name = $prompt.ask('                                            Name:', default: ENV["User"],)
     $user = User.find_or_create_by(name: user_name)
     # binding.pry
     system('clear')
