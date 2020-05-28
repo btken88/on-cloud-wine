@@ -17,10 +17,10 @@ class CommandLineInterface
     $user = User.find_or_create_by(name: user_name)
     # binding.pry
     system('clear')
-    
+    self.class.main_menu
   end
 
-  def main_menu
+  def self.main_menu
     menu_selections = {
       "Browse Wines" => 1,
       "View Personal Collection" => 2,
