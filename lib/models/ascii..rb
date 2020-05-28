@@ -35,7 +35,8 @@ class Ascii
     )( |HHHHHHHH H|   )(
     )( |HHHHHHHH H|   )(
    .)(.|HHHHHHHH H|  .)(.
-  ~~~~~~~~~~~~~~~~  ~~~~~~'
+  ~~~~~~~~~~~~~~~~  ~~~~~~
+   '
     end
 
 end
