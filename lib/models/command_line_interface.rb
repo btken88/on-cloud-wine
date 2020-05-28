@@ -40,11 +40,15 @@ class CommandLineInterface
 
   def self.select_wine
     print "Please enter the id of the wine you'd like to add to your collection: "
-    selection = gets.chomp
+    selection = gets.chomp.to_i
     print "How many would you like to add?: "
-    quantity = gets.chomp
-    UserWine.create(wine_id: selection, count: quantity, user_id: $user.id)
+    quantity = gets.chomp.to_i
+    if selection.zero? || quantity.zero?
+      puts 'Please enter a valid ID and Quantity.'
+      select_wine
+    else
+      UserWine.create(wine_id: selection, count: quantity, user_id: $user.id)
+    end
   end
-
 end
 
