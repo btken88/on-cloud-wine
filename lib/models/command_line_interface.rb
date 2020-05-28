@@ -24,8 +24,7 @@ class CommandLineInterface
     menu_selections = {
       "Browse Wines" => 1,
       "View Personal Collection" => 2,
-      "Help" => 3,
-      "Exit" => 4
+      "Exit" => 3
     }
     menu_choice = $prompt.select('Choose an option from the menu below:', menu_selections)
 
@@ -33,10 +32,8 @@ class CommandLineInterface
     when 1 
       Wine.browse_wines
     when 2
-      User.personal_collection
+      $user.personal_collection
     when 3
-      self.help
-    when 4
       exit
     end
   end

@@ -3,10 +3,10 @@ class Wine < ActiveRecord::Base
   has_many :users, through: :user_wines
   def self.browse_wines
     red_or_white = {
-      "Red" => 1,
-      "White" => 2
+      "Red".colorize(:red) => 1,
+      "White".colorize(:white) => 2
     }
-    color_choice =  $prompt.select('What color of wine would you like to peruse?:', red_or_white)
+    color_choice = $prompt.select('What color of wine would you like to peruse?:', red_or_white)
     case color_choice
     when 1
       self.reds
@@ -91,8 +91,42 @@ class Wine < ActiveRecord::Base
     table = TTY::Table.new ['ID', 'Name', 'Vintage', 'Winery', 'Varietal'], mapped_wines
     puts table.render(:ascii)
   end
+  
   def self.add_to_collection varietal, color = "Red"||"White"
     table varietal, color
-    CommandLineInterface.select_wine
+    add_wine?
+  end
+
+  def self.add_wine?
+    choices = {
+      "Add to Personal Collection" => 1,
+      "Continue Browsing" => 2
+    }
+    choice = $prompt.select("Would you care to add to your collection?:", choices)
+    case choice
+    when 1
+      CommandLineInterface.select_wine
+      continue_browsing?
+    when 2
+      self.browse_wines
     end
+  end
+
+  def self.continue_browsing?
+    continue = {
+      "Continue Browsing" => 1,
+      "View Personal Collection" => 2
+    }
+    decision = $prompt.select('Would you like to continue browsing or to see your private collection?', continue)
+    case decision
+    when 1
+      self.select_wine
+    when 2
+      $user.personal_collection
+    end
+  end
+
+
+
+
 end
