@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
   has_many :wines, through: :user_wines
 
   def personal_collection
-    if $user.wines.empty?
+    if !has_wines?
       empty_navigator
     else
       user_wines = wines.map do |wine|
