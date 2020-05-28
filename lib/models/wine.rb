@@ -136,7 +136,7 @@ class Wine < ActiveRecord::Base
     decision = $prompt.select('Would you like to continue browsing or to see your private collection?', continue)
     case decision
     when 1
-      CommandLineInterface.select_wine
+      browse_wines
     when 2
       $user.personal_collection
     end
