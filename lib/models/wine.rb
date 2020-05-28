@@ -6,7 +6,8 @@ class Wine < ActiveRecord::Base
   def self.browse_wines
     red_or_white = {
       "Red".colorize(:red) => 1,
-      "White".colorize(:white) => 2
+      "White".colorize(:white) => 2,
+      "Main Menu" => 3
     }
     color_choice = $prompt.select('What color of wine would you like to peruse?:', red_or_white)
     case color_choice
@@ -14,6 +15,8 @@ class Wine < ActiveRecord::Base
       reds
     when 2
       whites
+    when 3
+      CommandLineInterface.main_menu
     end
   end
 
@@ -91,7 +94,7 @@ class Wine < ActiveRecord::Base
 
   def self.wines_by_varietal(varietal, color)
     selected_wines = Wine.all.where(varietal: varietal, color: color)
-    binding.pry
+    # binding.pry
     mapped_wines = selected_wines.map do |wine|
       [wine.id, wine.name, wine.vintage, wine.winery, wine.varietal]
     end
