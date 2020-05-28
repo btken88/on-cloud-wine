@@ -5,9 +5,11 @@ class User < ActiveRecord::Base
   has_many :wines, through: :user_wines
 
   def personal_collection
+    system('clear')
     if !has_wines?
       empty_navigator
     else
+      wines.reload
       user_wines = wines.map do |wine|
         [wine.name, wine.vintage, wine.winery, wine.varietal, bottle_count(wine), wine.id]
       end.uniq
@@ -20,11 +22,11 @@ class User < ActiveRecord::Base
 
   def collection_navigator
     menu_options = {
-      "Pull" => 1, 
-      "Add to Collection" => 2,
+      "Open a Bottle" => 1, 
+      "Continue Browsing" => 2,
       "Main Menu" => 3
     }
-    menu_selection = $prompt.select("Are you pulling from your private collection today?:", menu_options)
+    menu_selection = $prompt.select("Would you like to open a bottle or continue browsing?:", menu_options)
     case menu_selection
     when 1
       self.drink
@@ -60,7 +62,7 @@ class User < ActiveRecord::Base
       if wine_id == 'q'
         personal_collection
       else
-        wine_record = UserWine.where(user_id: self.id, wine_id: wine_id).first
+        wine_record = UserWine.where(user_id: id, wine_id: wine_id).first
         if wine_record
           wine_record[:count] -= 1
           if wine_record[:count].zero?
@@ -94,14 +96,6 @@ class User < ActiveRecord::Base
       true
     else
       empty_navigator
-    end
-  end
-
-  def has_wines?
-    if wines.first
-      true
-    else
-      false
     end
   end
 end

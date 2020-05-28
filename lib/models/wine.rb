@@ -4,6 +4,7 @@ class Wine < ActiveRecord::Base
   has_many :user_wines
   has_many :users, through: :user_wines
   def self.browse_wines
+    system('clear')
     red_or_white = {
       "Red".colorize(:red) => 1,
       "White".colorize(:white) => 2,
@@ -16,6 +17,28 @@ class Wine < ActiveRecord::Base
     when 2
       whites
     when 3
+      CommandLineInterface.main_menu
+    end
+  end
+
+  def self.add_wine_to_database
+    puts "Please enter the information for the wine you'd like to add to our database."
+    result = $prompt.collect do
+      key(:name).ask('Name?')
+      key(:winery).ask('Winery?')
+      key(:vintage).ask('Vintage?')
+      key(:varietal).ask('Varietal?')
+      key(:color).ask('Color - "Red" or "White"')
+    end
+    new_wine = Wine.new(result)
+    puts "You entered: #{new_wine.name}, #{new_wine.winery}, #{new_wine.vintage}, #{new_wine.varietal}, #{new_wine.color}"
+    y_n = $prompt.yes?("Is this the correct information?")
+    if y_n
+      new_wine.save
+      puts "Thank you for your contribution. Your wine is now in our database."
+      sleep(3)
+      CommandLineInterface.main_menu
+    else
       CommandLineInterface.main_menu
     end
   end
@@ -62,7 +85,7 @@ class Wine < ActiveRecord::Base
       'Gewürztraminer' => 2,
       'Cabernet Sauvignon' => 3,
       'Riesling' => 4,
-      'Voigner' => 5,
+      'Viogner' => 5,
       'Moscato' => 6,
       'Chardonnay' => 7,
       'Blend' => 8,
@@ -80,7 +103,7 @@ class Wine < ActiveRecord::Base
     when 4
       wines_by_varietal 'Riesling', 'White'
     when 5
-      wines_by_varietal 'Voigner', 'White'
+      wines_by_varietal 'Viogner', 'White'
     when 6
       wines_by_varietal 'Moscato', 'White'
     when 7
