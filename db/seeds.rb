@@ -13,13 +13,6 @@ Wine.create(
   color: "White")
 
 Wine.create(
-  name: "Cabernet Franc Reserve",
-  varietal: "Cabernet Franc",
-  vintage: 2015,
-  winery: "Bookcliff Winery",
-  color: "Red")
-
-Wine.create(
   name: '"Coral" White Cabernet Sauvignon',
   varietal: "Cabernet Sauvignon",
   vintage: 2017,

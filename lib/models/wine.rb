@@ -35,7 +35,7 @@ class Wine < ActiveRecord::Base
     y_n = $prompt.yes?("Is this the correct information?")
     if y_n
       new_wine.save
-      puts "Thank you for your contribution. Your wine is now in our database."
+      puts "Thank you for your contribution, #{$user.name}. Your wine is now in our database."
       sleep(3)
       CommandLineInterface.main_menu
     else
