@@ -5,11 +5,11 @@ class User < ActiveRecord::Base
   has_many :wines, through: :user_wines
 
   def personal_collection
+    wines.reload
     system('clear')
     if !has_wines?
       empty_navigator
     else
-      wines.reload
       user_wines = wines.map do |wine|
         [wine.name, wine.vintage, wine.winery, wine.varietal, bottle_count(wine), wine.id]
       end.uniq

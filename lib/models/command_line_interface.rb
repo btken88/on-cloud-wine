@@ -42,6 +42,10 @@ your own personal wine collection. Please enter your name to begin."
     when 3
       Wine.add_wine_to_database
     when 4
+      system('clear')
+      puts "🥂 Thanks for using On Cloud Wine today - we look forward to your next visit! 🥂"
+      sleep(4)
+      system('clear')
       exit
     end
   end
